@@ -24,7 +24,10 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
 
 public class AnimateDrawables extends GraphicsActivity {
@@ -46,13 +49,27 @@ public class AnimateDrawables extends GraphicsActivity {
             Drawable dr = context.getResources().getDrawable(R.drawable.beach);
             dr.setBounds(0, 0, dr.getIntrinsicWidth(), dr.getIntrinsicHeight());
 
-            Animation an = new TranslateAnimation(0, 100, 0, 200);
-            an.setDuration(2000);
-            an.setRepeatCount(-1);
-            an.initialize(10, 10, 10, 10);
+            Animation translateAnimation = new TranslateAnimation(0, 100, 0, 200);
+            //Animation alphaAnimation = new AlphaAnimation(0.6f, 1.0f);
+            Animation scaleAnimation = new ScaleAnimation(0.1f,1f,0.1f,1f);
+            
+            AnimationSet animationSet = new AnimationSet(true);
+            animationSet.addAnimation(translateAnimation);
+            animationSet.addAnimation(scaleAnimation);
+            translateAnimation.setDuration(2000);
+            translateAnimation.setRepeatCount(5);
+            scaleAnimation.setDuration(2000);
+            scaleAnimation.setRepeatCount(5);
+            animationSet.initialize(10, 10, 10, 10);
 
-            mDrawable = new AnimateDrawable(dr, an);
-            an.startNow();
+            // an.setDuration(2000);
+            // an.setRepeatCount(-1);
+            // an.initialize(10, 10, 10, 10);
+
+            // mDrawable = new AnimateDrawable(dr, an);
+            mDrawable = new AnimateDrawable(dr, animationSet);
+            // an.startNow();
+            animationSet.startNow();
         }
 
         @Override
@@ -64,4 +81,3 @@ public class AnimateDrawables extends GraphicsActivity {
         }
     }
 }
-
